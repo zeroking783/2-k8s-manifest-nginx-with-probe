@@ -1,0 +1,84 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: nginx1
+  labels:
+    app: web
+spec:
+  selector:
+    matchLabels:
+      service: nginx
+  template: 
+    metadata:
+      labels:
+        service: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20
+      volumes: 
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+          
+--- 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+data:
+  nginx.conf: |
+    events {}
+    error_log /var/log/nginx/error.log warn;
+
+    http {
+      server {
+        listen 80;  
+        location /healthz {
+          add_header Content-Type text/plain;
+          return 200 'OK';
+        }
+      }
+    }
+
+---
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: nginx1-service
+  labels: 
+    app: web-service
+spec:
+  type: NodePort
+  selector: 
+    service: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30001
