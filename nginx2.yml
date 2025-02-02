@@ -3,15 +3,19 @@ kind: Deployment
 metadata: 
   name: nginx2
   labels:
-    app: web
+    app: nginx
+    instance: nginx2
+    component: frontend
 spec:
   selector:
     matchLabels:
-      service: nginx2
+      app: nginx
+      instance: nginx2
   template: 
     metadata:
       labels:
-        service: nginx2
+        app: nginx
+        instance: nginx2
     spec:
       containers:
         - name: nginx2
@@ -97,7 +101,9 @@ kind: Service
 metadata: 
   name: nginx2-service
   labels: 
-    app: web-service
+    app: nginx
+    instance: nginx2
+    component: frontend
 spec:
   type: NodePort
   selector: 

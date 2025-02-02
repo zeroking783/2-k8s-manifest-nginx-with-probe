@@ -3,15 +3,19 @@ kind: Deployment
 metadata: 
   name: nginx1
   labels:
-    app: web
+    app: nginx
+    instance: nginx1
+    component: frontend
 spec:
   selector:
     matchLabels:
-      service: nginx1
+      app: nginx
+      instance: nginx1
   template: 
     metadata:
       labels:
-        service: nginx1
+        app: nginx
+        instance: nginx1
     spec:
       containers:
         - name: nginx1
@@ -100,12 +104,15 @@ apiVersion: v1
 kind: Service 
 metadata: 
   name: nginx1-service
-  labels: 
-    app: web-service
+  labels:   
+    app: nginx
+    instance: nginx1
+    component: frontend
 spec:
   type: NodePort
   selector: 
-    service: nginx1
+    app: nginx
+    instance: nginx1
   ports:
     - protocol: TCP
       port: 80
