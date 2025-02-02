@@ -7,7 +7,6 @@ metadata:
     instance: {{ .Values.Labels.Instance }}
     component: {{ .Values.Labels.Component }}
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: {{ .Values.Labels.AppName}}
