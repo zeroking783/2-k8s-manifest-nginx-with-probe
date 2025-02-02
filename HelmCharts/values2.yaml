@@ -1,0 +1,14 @@
+DeploymentName: nginx2
+
+Labels:
+  AppName: nginx
+  Instance: nginx2
+  Component: frontend
+
+NginxConfig: nginx2-config 
+
+ConfigMapName: nginx2-conf
+
+ServiceName: nginx2-service
+
+NodePort: 30002

@@ -1,0 +1,14 @@
+DeploymentName: nginx1
+
+Labels:
+  AppName: nginx
+  Instance: nginx1
+  Component: frontend
+
+NginxConfig: nginx1-config 
+
+ConfigMapName: nginx1-conf
+
+ServiceName: nginx1-service
+
+NodePort: 30001

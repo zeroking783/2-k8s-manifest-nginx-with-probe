@@ -1,0 +1,6 @@
+apiVersion: v2
+name: nginx-HelmCharts
+description: Helm Charts for 2 manifest nginx 
+type: application
+version: 0.1.0
+appVersion: "1"
