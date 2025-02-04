@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume 
+metadata: 
+  name: storage-local-pv
+  # label:
+  #   object: storage 
+  #   appointment: configs
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/mnt/minikube/pvStorage"
+  storageClassName: ""

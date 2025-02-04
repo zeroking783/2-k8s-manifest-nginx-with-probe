@@ -1,0 +1,19 @@
+apiVersion: v1 
+kind: Pod 
+metadata:
+  name: pv-upload
+  labels: 
+    component: inside
+    object: storage
+spec:
+  containers:
+    - name: pv-upload
+      image: busybox
+      command: ["sleep", "3600"]
+      volumeMounts:
+        - name: storage-volume
+          mountPath: /mnt/storage
+  volumes: 
+    - name: storage-volume
+      persistentVolumeClaim: 
+        claimName: storage-local-pvc
